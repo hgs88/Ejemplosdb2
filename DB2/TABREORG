@@ -1,0 +1,12 @@
+//TABREORG   JOB (20,FB3),TRALEY,
+//            CLASS=A,MSGCLASS=H,NOTIFY=&SYSUID,COND=(0,NE)
+//**********************************************************************
+//* STEP REPAIR: RUN REPAIR
+//**********************************************************************
+//REPAIR EXEC DSNUPROC,SYSTEM=DB9G,
+//             UID=''
+//DSNUPROC.SYSIN  DD  *
+REORG TABLESPACE 'IBMUSER.VERDUTS' LOG NO
+/*
+//
+REORG TABLE IBMUSER.VENDED INDEX VENDEDI INPLACE ALLOW WRITE ACCESS

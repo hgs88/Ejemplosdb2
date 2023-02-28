@@ -1,0 +1,23 @@
+//ADCDMSTD JOB 1AD40G12,'DB2 UTILITY',NOTIFY=&SYSUID,
+//  MSGCLASS=Q,CLASS=A,MSGLEVEL=(1,1),REGION=0M,TIME=(0,7)
+//*      RESTART=RECOVER,
+//*
+//*
+//**********************************************************************
+//*
+//* DB2 ADMIN GENERATED JOB - RUN RECOVER UTILITY (TABLESPACES)
+//*
+//***********************************************************ADB2USV****
+//*
+//**********************************************************************
+//* STEP RECOVER: RECOVER TABLESPACES
+//**********************************************************************
+//RECOVER EXEC DSNUPROC,SYSTEM=DB9G,
+//             UID=''
+//DSNUPROC.SYSUT1 DD DSN=ADCDMST.SYSUT1,
+//             DISP=(MOD,DELETE,CATLG),
+//             SPACE=(TRK,(30,30),RLSE),
+//             UNIT=SYSDA
+//DSNUPROC.SYSIN  DD  *
+RECOVER TABLESPACE VERDURA.VERDUTS DSNUM ALL
+REBUILD INDEX(ALL) TABLESPACE VERDURA.VERDUTS

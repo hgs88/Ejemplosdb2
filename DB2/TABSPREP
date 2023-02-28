@@ -1,0 +1,12 @@
+//TABSPREP   JOB (20,FB3),TRALEY,
+//            CLASS=A,MSGCLASS=H,NOTIFY=&SYSUID,COND=(0,NE)
+//**********************************************************************
+//* STEP REPAIR: RUN REPAIR
+//**********************************************************************
+//REPAIR EXEC DSNUPROC,SYSTEM=DB9G,
+//             UID=''
+//DSNUPROC.SYSIN  DD  *
+REPAIR SET TABLESPACE VERDURA.VERDUTS NORCVRPEND
+REPAIR SET TABLESPACE VERDURA.VERDUTS NOCOPYPEND
+/*
+//

@@ -1,0 +1,40 @@
+//IBMUSERD JOB (ACCOUNTING INFO),'DB2 UTILITY',
+//*       RESTART=STEPNAME, <== FOR RESTART REMOVE * AND ENTER STEP NAME
+//         REGION=8M,NOTIFY=&SYSUID,
+//         MSGCLASS=X,
+//         CLASS=A
+//*
+//*
+//**********************************************************************
+//*
+//* DB2 ADMIN GENERATED JOB - RUN REORG UTILITY (TABLESPACES)
+//*
+//***********************************************************ADB2USO****
+//*
+//**********************************************************************
+//* STEP REORG1: REORG TABLESPACE VERDURA.VERDUTS
+//**********************************************************************
+//REORG1 EXEC DSNUPROC,SYSTEM=DB9G,
+//             UID=''
+//DSNUPROC.SYSPUNCH DD DSN=IBMUSER.DB9G.CNTL.VERDURA.VERDUTS,
+//             DISP=(MOD,CATLG),
+//             SPACE=(TRK,(5,5),RLSE),
+//             UNIT=SYSDA
+//DSNUPROC.SYSREC DD DSN=IBMUSER.DB9G.UNLD.VERDURA.VERDUTS,
+//             DISP=(MOD,CATLG),
+//             SPACE=(TRK,(5,5),RLSE),
+//             UNIT=SYSDA
+//DSNUPROC.SYSUT1 DD DSN=IBMUSER.SYSUT1,
+//             DISP=(MOD,DELETE,CATLG),
+//             SPACE=(TRK,(5,5),RLSE),
+//             UNIT=SYSDA
+//DSNUPROC.SORTOUT DD DSN=IBMUSER.SORTOUT,
+//             DISP=(MOD,DELETE,CATLG),
+//             SPACE=(TRK,(5,5),RLSE),
+//             UNIT=SYSDA
+//DSNUPROC.SYSIN DD *
+REORG TABLESPACE VERDURA.VERDUTS
+  LOG NO
+  SORTDATA
+  SORTDEVT SYSDA
+  SORTNUM 4

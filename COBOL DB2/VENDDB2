@@ -1,0 +1,175 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. VENDED.
+       AUTHOR. J.GAYAN.
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+       SOURCE-COMPUTER. IBM-370.
+       OBJECT-COMPUTER. IBM-370.
+       SPECIAL-NAMES.
+           DECIMAL-POINT IS COMMA.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+           SELECT SALIDA  ASSIGN TO SALIDA.
+       DATA DIVISION.
+       FILE SECTION.
+       FD  SALIDA
+           BLOCK CONTAINS 0 RECORDS
+           LABEL RECORD IS STANDARD
+           RECORDING MODE IS F
+           RECORD 200 CHARACTERS
+           DATA RECORD IS REG-SALIDA1.
+       01  REG-SALIDA PIC X(200).
+       WORKING-STORAGE SECTION.
+       EXEC SQL DECLARE VENDED TABLE
+           ( TVEND_COD_VENDEDOR             DECIMAL(4, 0) NOT NULL,
+             TVEND_NOMBRE                   CHAR(30) NOT NULL,
+             TVEND_FECHA_ALTA               CHAR(8) NOT NULL,
+             TVEND_NIF                      CHAR(10) NOT NULL,
+             TVEND_FECHA_NACIMIENTO         CHAR(8) NOT NULL,
+             TVEND_DIRECCION                CHAR(30) NOT NULL,
+             TVEND_POBLACION                CHAR(30) NOT NULL,
+             TVEND_COD_POSTAL               CHAR(10) NOT NULL,
+             TVEND_TELEFONO                 CHAR(10) NOT NULL,
+             TVEND_ESTADO                   CHAR(12) NOT NULL,
+             TVEND_GUAPO                    CHAR(1) NOT NULL
+           ) END-EXEC.
+       01  DCLVENDED.
+           10 TVEND-COD-VENDEDOR     PIC S9(4) USAGE COMP-3.
+           10 TVEND-NOMBRE           PIC X(30).
+           10 TVEND-FECHA-ALTA       PIC X(8).
+           10 TVEND-NIF              PIC X(10).
+           10 TVEND-FECHA-NACIMIENTO PIC X(8).
+           10 TVEND-DIRECCION        PIC X(30).
+           10 TVEND-POBLACION        PIC X(30).
+           10 TVEND-COD-POSTAL       PIC X(10).
+           10 TVEND-TELEFONO         PIC X(10).
+           10 TVEND-ESTADO           PIC X(12).
+           10 TVEND-GUAPO            PIC X(1).
+       EXEC SQL
+              INCLUDE SQLCA
+       END-EXEC.
+       77  FE PIC X.
+       01  CABECERA1.
+           03 FILLER PIC X(8)   VALUE 'VENDEDOR'.
+           03 FILLER         PIC X(2) VALUE SPACES.
+           03 FILLER PIC X(30)  VALUE '            NOMBRE         '.
+           03 FILLER         PIC X(2) VALUE SPACES.
+           03 FILLER PIC X(15)   VALUE '  FECHA-ALTA  '.
+           03 FILLER         PIC X(2) VALUE SPACES.
+           03 FILLER PIC X(6)   VALUE 'NIF  '.
+           03 FILLER         PIC X(2) VALUE SPACES.
+           03 FILLER PIC X(11)   VALUE ' NACIMIENTO'.
+           03 FILLER         PIC X(2) VALUE SPACES.
+           03 FILLER PIC X(30)       VALUE 'DIRECCION'.
+           03 FILLER         PIC X(2) VALUE SPACES.
+           03 FILLER PIC X(30)   VALUE '             POBLACION'.
+           03 FILLER         PIC X(2) VALUE SPACES.
+           03 FILLER PIC X(6)   VALUE 'CO-POS'.
+           03 FILLER         PIC X(2) VALUE SPACES.
+           03 FILLER PIC X(10)   VALUE ' TELEFONO'.
+           03 FILLER         PIC X(2) VALUE SPACES.
+           03 FILLER PIC X(11)   VALUE '  ESTADO   '.
+           03 FILLER         PIC X(2) VALUE SPACES.
+           03 FILLER PIC X(5)   VALUE 'GUAPO'.
+       01  CABECERA2.
+           03 FILLER PIC X(8)   VALUE ALL '-'.
+           03 FILLER         PIC X(2) VALUE SPACES.
+           03 FILLER PIC X(30)  VALUE ALL '-'.
+           03 FILLER         PIC X(2) VALUE SPACES.
+           03 FILLER PIC X(15)   VALUE ALL '-'.
+           03 FILLER         PIC X(2) VALUE SPACES.
+           03 FILLER PIC X(6)   VALUE ALL '-'.
+           03 FILLER         PIC X(2) VALUE SPACES.
+           03 FILLER PIC X(11)  VALUE ALL '-'.
+           03 FILLER         PIC X(2) VALUE SPACES.
+           03 FILLER PIC X(30)  VALUE ALL '-'.
+           03 FILLER         PIC X(2) VALUE SPACES.
+           03 FILLER PIC X(30)  VALUE ALL '-'.
+           03 FILLER         PIC X(2) VALUE SPACES.
+           03 FILLER PIC X(6)  VALUE ALL '-'.
+           03 FILLER         PIC X(2) VALUE SPACES.
+           03 FILLER PIC X(10)  VALUE ALL '-'.
+           03 FILLER         PIC X(2) VALUE SPACES.
+           03 FILLER PIC X(11)  VALUE ALL '-'.
+           03 FILLER         PIC X(2) VALUE SPACES.
+           03 FILLER PIC X(5)  VALUE ALL '-'.
+           03 FILLER         PIC X(2) VALUE SPACES.
+       01  CABECERA3.
+           03 FILLER         PIC X(2) VALUE SPACES.
+           03 S-COD-VENDEDOR   PIC ZZZ9.
+           03 FILLER         PIC X(5) VALUE SPACES.
+           03 S-NOMBRE        PIC X(30).
+           03 FILLER         PIC X(1) VALUE SPACES.
+           03 S-FECHA-ALTA      PIC X(10).
+           03 FILLER         PIC X(2) VALUE SPACES.
+           03 S-NIF  PIC X(10).
+           03 FILLER         PIC X(2) VALUE SPACES.
+           03 S-FECHA-NACIMIENTO     PIC X(10).
+           03 FILLER         PIC X(2) VALUE SPACES.
+           03 S-DIRECION     PIC X(30).
+           03 FILLER         PIC X(2) VALUE SPACES.
+           03 S-POBLACION     PIC X(30).
+           03 FILLER         PIC X(2) VALUE SPACES.
+           03 S-COD-POSTAL     PIC X(10).
+           03 FILLER         PIC X(2) VALUE SPACES.
+           03 S-TELEFONO     PIC X(10).
+           03 FILLER         PIC X(2) VALUE SPACES.
+           03 S-ESTADO       PIC X(12).
+           03 FILLER         PIC X(2) VALUE SPACES.
+           03 S-GUAPO     PIC X(10).
+       PROCEDURE DIVISION.
+       ABRIR.
+           OPEN OUTPUT SALIDA
+           WRITE REG-SALIDA FROM CABECERA1 END-WRITE
+           WRITE REG-SALIDA FROM CABECERA2 END-WRITE
+           PERFORM LEER-BASE-DATOS
+           CLOSE SALIDA
+           STOP RUN.
+       LEER-BASE-DATOS.
+           MOVE 5 TO TVEND-COD-VENDEDOR
+           EXEC SQL
+              SELECT TVEND_COD_VENDEDOR,
+                TVEND_NOMBRE,
+                TVEND_FECHA_ALTA,
+                TVEND_NIF,
+                TVEND_FECHA_NACIMIENTO,
+                TVEND_DIRECCION,
+                TVEND_POBLACION,
+                TVEND_COD_POSTAL,
+                TVEND_TELEFONO,
+                TVEND_ESTADO,
+                TVEND_GUAPO
+             INTO :TVEND-COD-VENDEDOR,
+               :TVEND-NOMBRE,
+               :TVEND-FECHA-ALTA,
+               :TVEND-NIF,
+               :TVEND-FECHA-NACIMIENTO,
+               :TVEND-DIRECCION,
+               :TVEND-POBLACION,
+               :TVEND-COD-POSTAL,
+               :TVEND-TELEFONO,
+               :TVEND-ESTADO,
+               :TVEND-GUAPO
+              FROM VENDED
+              WHERE TVEND_COD_VENDEDOR = :TVEND-COD-VENDEDOR
+           END-EXEC.
+           IF SQLCODE = 0
+              DISPLAY ' SQL EXECUTED SUCESSFULLY '
+              PERFORM MOVER-CAMPOS
+           ELSE
+              DISPLAY ' SQL FAILED '
+              DISPLAY  ' SQL CODE   '  SQLCODE
+           END-IF.
+       MOVER-CAMPOS.
+           MOVE TVEND-COD-VENDEDOR TO S-COD-VENDEDOR
+           MOVE TVEND-NOMBRE TO  S-NOMBRE
+           MOVE TVEND-FECHA-ALTA TO S-FECHA-ALTA
+           MOVE TVEND-NIF TO S-NIF
+           MOVE TVEND-FECHA-NACIMIENTO TO S-FECHA-NACIMIENTO
+           MOVE TVEND-DIRECCION TO S-DIRECION
+           MOVE TVEND-POBLACION TO S-POBLACION
+           MOVE TVEND-COD-POSTAL TO S-COD-POSTAL
+           MOVE TVEND-TELEFONO TO S-TELEFONO
+           MOVE TVEND-ESTADO TO S-ESTADO
+           MOVE TVEND-GUAPO  TO S-GUAPO
+           WRITE REG-SALIDA FROM CABECERA3 END-WRITE.

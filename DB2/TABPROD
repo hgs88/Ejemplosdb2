@@ -1,0 +1,49 @@
+//CREAPRO    JOB (20,FB3),TRALEY,
+//            CLASS=A,MSGCLASS=H,NOTIFY=&SYSUID,COND=(0,NE)
+//* RUN THIS JOB FROM MVR0XCD SYSTEM AFTER BUILD IN COMPLETE
+//ALTER   EXEC PGM=IKJEFT01,DYNAMNBR=20                                 00020000
+//STEPLIB  DD DSN=DSN810.SDSNLOAD,DISP=SHR
+//SYSTSPRT DD  SYSOUT=*                                                 00030000
+//SYSTSIN  DD  *                                                        00040000
+  DSN SYSTEM(DB9G)                                                      00050000
+  RUN PROGRAM(DSNTIAD)  PLAN(DSNTIA91) -                                00060000
+      PARM('RC0') LIBRARY('DSN910.DB9G.RUNLIB.LOAD')                    00070000
+//SYSPRINT DD  SYSOUT=*                                                 00080000
+//SYSUDUMP DD  DUMMY                                                    00090000
+//SYSIN    DD  *                                                        00100000
+DROP TABLE PRODUC;
+/*
+//**********************************************************************
+//* STEP REPAIR: RUN REPAIR
+//**********************************************************************
+//REPAIR EXEC DSNUPROC,SYSTEM=DB9G,
+//             UID=''
+//DSNUPROC.SYSIN  DD  *
+REPAIR SET TABLESPACE VERDURA.VERDUTS NORCVRPEND
+/*
+//**********************************************************************
+//ALTER   EXEC PGM=IKJEFT01,DYNAMNBR=20
+//STEPLIB  DD DSN=DSN810.SDSNLOAD,DISP=SHR
+//SYSTSPRT DD  SYSOUT=*
+//SYSTSIN  DD  *
+  DSN SYSTEM(DB9G)
+  RUN PROGRAM(DSNTIAD)  PLAN(DSNTIA91) -
+      PARM('RC0') LIBRARY('DSN910.DB9G.RUNLIB.LOAD')
+//SYSPRINT DD  SYSOUT=*
+//SYSUDUMP DD  DUMMY
+//SYSIN    DD  *
+CREATE TABLE PRODUC
+(
+     TPROD_COD_PRODUCTO     DECIMAL (4,0) NOT NULL ,
+     TPROD_NOM_PRODUCTO     CHAR(20) NOT NULL ,
+     TPROD_ID_GRUPO         DECIMAL (2,0) NOT NULL ,
+     TPROD_PRECIO           DECIMAL (7,2) NOT NULL
+)  IN  VERDURA.VERDUTS  AUDIT NONE  DATA CAPTURE NONE ;
+
+ CREATE UNIQUE INDEX PRODUCI
+     ON PRODUC ( TPROD_COD_PRODUCTO )
+  FREEPAGE 0
+  PCTFREE 10
+  BUFFERPOOL BP0
+  CLOSE YES ;
+/*

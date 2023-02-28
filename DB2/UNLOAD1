@@ -1,0 +1,40 @@
+//IBMUSERD JOB (ACCOUNTING INFO),'DB2 UTILITY',
+//*       RESTART=STEPNAME, <== FOR RESTART REMOVE * AND ENTER STEP NAME
+//         REGION=XXXXK,NOTIFY=IBMUSER,
+//         MSGCLASS=X,
+//         CLASS=A
+//*
+//*
+//**********************************************************************
+//*
+//* DB2 ADMIN GENERATED JOB - RUN UNLOAD UTILITY (TABLESPACES)
+//*
+//***********************************************************ADB2USU****
+//*
+//**********************************************************************
+//* STEP DELET1: DELETE OLD DATASETS
+//**********************************************************************
+//DELET1     EXEC PGM=IEFBR14
+//SYSPUNCH  DD DSN=IBMUSER.DB9G.CNTL.VERDURA.VERDUTS.PTALL,
+//             UNIT=SYSDA,DISP=(MOD,DELETE,DELETE),SPACE=(TRK,1)
+//SYSREC    DD DSN=IBMUSER.DB9G.UNLD.VERDURA.VERDUTS.PTALL,
+//             DISP=(MOD,DELETE,DELETE),SPACE=(TRK,1),
+//             UNIT=SYSDA
+//**********************************************************************
+//* STEP UNLD1: UNLOAD TABLESPACE VERDURA.VERDUTS
+//**********************************************************************
+//UNLD1 EXEC DSNUPROC,SYSTEM=DB9G,
+//             UID=''
+//SYSPUNCH  DD DSN=IBMUSER.DB9G.CNTL.VERDURA.VERDUTS.PTALL,
+//             DISP=(,CATLG,DELETE),
+//             SPACE=(TRK,(5,5),RLSE),
+//             UNIT=SYSDA
+//SYSREC    DD DSN=IBMUSER.DB9G.UNLD.VERDURA.VERDUTS.PTALL,
+//             DISP=(,CATLG,DELETE),
+//             SPACE=(TRK,(5,5),RLSE),
+//             UNIT=SYSDA
+//SYSTSPRT  DD SYSOUT=*
+//SYSPRINT  DD SYSOUT=*
+//SYSIN     DD *
+UNLOAD TABLESPACE VERDURA.VERDUTS
+/*

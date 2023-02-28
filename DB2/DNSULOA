@@ -1,0 +1,95 @@
+//LOADDB1    JOB (20,FB3),TRALEY,
+//            CLASS=A,MSGCLASS=H,NOTIFY=&SYSUID,COND=(0,NE)
+//*
+//*
+//*
+//UTIL EXEC DSNUPROC,SYSTEM=DB9G,UID='TEMP',UTPROC='',
+//     LIB(USER02.LIB.DB2)
+//*
+//**********************************************
+//*
+//*  GENERATING JCL FOR THE LOAD UTILITY
+//*  DATE:  07/30/15          TIME:  17:59:06
+//*
+//**********************************************
+//*
+//DSNUPROC.SYSCOPY DD DSN=USER02.LIB.COPYDSN,
+//     DISP=(MOD,CATLG),
+//     SPACE=(16384,(20,20),,,ROUND),
+//     UNIT=SYSDA
+//DSNUPROC.SYSCOPY2 DD DSN=USER02.LIB.COPYDSN2,
+//     DISP=(MOD,CATLG),
+//     SPACE=(16384,(20,20),,,ROUND),
+//     UNIT=SYSDA
+//DSNUPROC.SYSRCPY1 DD DSN=USER02.LIB.RCPYDSN1,
+//     DISP=(MOD,CATLG),
+//     SPACE=(16384,(20,20),,,ROUND),
+//     UNIT=SYSDA
+//DSNUPROC.SYSRCPY2 DD DSN=USER02.LIB.RCPYDSN2,
+//     DISP=(MOD,CATLG),
+//     SPACE=(16384,(20,20),,,ROUND),
+//     UNIT=SYSDA
+//DSNUPROC.SORTWK01 DD DSN=SORTWK01,
+//     DISP=(MOD,DELETE,CATLG),
+//     SPACE=(16384,(20,20),,,ROUND),
+//     UNIT=SYSDA
+//DSNUPROC.SORTWK02 DD DSN=SORTWK02,
+//     DISP=(MOD,DELETE,CATLG),
+//     SPACE=(16384,(20,20),,,ROUND),
+//     UNIT=SYSDA
+//DSNUPROC.SORTWK03 DD DSN=SORTWK03,
+//     DISP=(MOD,DELETE,CATLG),
+//     SPACE=(16384,(20,20),,,ROUND),
+//     UNIT=SYSDA
+//DSNUPROC.SORTWK04 DD DSN=SORTWK04,
+//     DISP=(MOD,DELETE,CATLG),
+//     SPACE=(16384,(20,20),,,ROUND),
+//     UNIT=SYSDA
+//DSNUPROC.SYSREC DD DSN=VERDURA.GRUPOS.SEQDB2,
+//     DISP=OLD
+//DSNUPROC.SYSDISC DD DSN=USER02.LIB.DISCDSN,
+//     DISP=(MOD,CATLG),
+//     SPACE=(16384,(20,20),,,ROUND),
+//     UNIT=SYSDA
+//DSNUPROC.SYSUT1 DD DSN=SYSUT1,
+//     DISP=(MOD,DELETE,CATLG),
+//     SPACE=(16384,(20,20),,,ROUND),
+//     UNIT=SYSDA
+//DSNUPROC.SORTOUT DD DSN=SORTOUT,
+//     DISP=(MOD,DELETE,CATLG),
+//     SPACE=(16384,(20,20),,,ROUND),
+//     UNIT=SYSDA
+//DSNUPROC.SYSERR DD DSN=SYSERR,
+//     DISP=(MOD,DELETE,CATLG),
+//     SPACE=(16384,(20,20),,,ROUND),
+//     UNIT=SYSDA
+//DSNUPROC.SYSMAP DD DSN=SYSMAP,
+//     DISP=(MOD,DELETE,CATLG),
+//     SPACE=(16384,(20,20),,,ROUND),
+//     UNIT=SYSDA
+//DSNUPROC.SYSLISTD DD DSN=USER02,
+//     DISP=OLD,
+//     SPACE=(16384,(20,20),,,ROUND),
+//     UNIT=SYSDA
+//DSNUPROC.SYSIN    DD  *
+LOAD DATA  INDDN LOADIN                                                 00010001
+STATISTICS TABLE(ALL) INDEX(ALL) UPDATE ALL                             00020001
+SORTNUM 12                                                              00030001
+WORKDDN (SYSUT1,SORTOUT)                                                00040001
+ERRDDN SYSERR                                                           00050001
+MAPDDN SYSMAP                                                           00060001
+LOG NO                                                                  00070001
+ENFORCE NO                                                              00080001
+INTO TABLE GRUPOS                                                       00090001
+( TGRUP_CLAVE POSITION(2:0) DECIMAL                                     00160001
+, TGRUP_DESCRIPCION  POSITION(12:3) CHAR (12)                           00170001
+)                                                                       00180001
+/*                                                                      00130001
+//                                                                      00140001
+INTO TABLE GRUPOS                                                       00150001
+( TGRUP_CLAVE POSITION(2:0) DECIMAL                                     00160001
+, TGRUP_DESCRIPCION  POSITION(12:3) CHAR (12)                           00170001
+)                                                                       00180001
+( TGRUP_CLAVE  SMALLINT                                                 00100001
+, TGRUP_DESCRIPCION  CHAR (12)                                          00110001
+//

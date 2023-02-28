@@ -1,0 +1,50 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. MYTAB.
+       AUTHOR.     SHIBU.T
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+           EXEC SQL
+             INCLUDE MYNAM
+           END-EXEC.
+           EXEC SQL
+             INCLUDE SQLCA
+           END-EXEC.
+       01  WS-ROLL-NO                         PIC X(3) VALUE IS '000'.
+       01  WS-ROLL-N1                         PIC 9(3).
+       01  WS-NAME                            PIC X(15).
+       01  WS-SQLCODE                         PIC ---9.
+       PROCEDURE DIVISION.
+       PARA-00100-MAIN.
+           DISPLAY 'EXECUTION STARTED'.
+           MOVE 0                             TO WS-ROLL-N1.
+           PERFORM UNTIL WS-ROLL-NO = '001'
+             COMPUTE WS-ROLL-N1 = WS-ROLL-N1 + 1
+             MOVE WS-ROLL-N1                  TO WS-ROLL-NO
+             PERFORM PARA-00200-FETCH THRU PARA-00200-FETCH-EXIT
+           END-PERFORM.
+           STOP RUN.
+
+       PARA-00200-FETCH.
+           DISPLAY 'PARA-00200-FETCH.'.
+           EXEC SQL
+             SELECT *
+               INTO : DCLMYNAM
+             FROM MYNAM
+             WHERE SEQ = : WS-ROLL-NO
+           END-EXEC.
+           IF SQLCODE = 0
+             DISPLAY 'EXECUTION SUCESS!'
+             PERFORM PARA-00300-PRINT THRU PARA-00300-PRINT-EXIT
+           ELSE
+             DISPLAY 'FETCH FAILED!, PROGRAMM TERMINATING.'
+             MOVE SQLCODE                     TO WS-SQLCODE
+             DISPLAY 'SQL CODE FROM LAST FETCH: ' WS-SQLCODE
+           END-IF.
+       PARA-00200-FETCH-EXIT.
+           EXIT.
+
+       PARA-00300-PRINT.
+           DISPLAY 'NAME IS >> ' NAME ' <<'
+       PARA-00300-PRINT-EXIT.
+           EXIT.
+

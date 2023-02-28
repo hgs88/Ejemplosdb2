@@ -1,0 +1,266 @@
+//IBMUSERA  JOB ,'DB2I TRAINING',NOTIFY=&SYSUID,MSGCLASS=H              00010000
+//*                                                                     00020000
+//JOBLIB  DD DSN=DSN910.SDSNLOAD,DISP=SHR                               00030000
+//        DD DSN=DSN910.DB9G.RUNLIB.LOAD,DISP=SHR                       00040000
+//*                                                                     00050000
+//SETVARS SET SRCLIB=TR$I01.DB2A.LIB                                    00060000
+//*                                                                     00070000
+//CDBTRAIN EXEC PGM=IKJEFT01,REGION=2048K                               00080000
+//SYSTSPRT DD SYSOUT=*                                                  00090000
+//SYSTSIN  DD *                                                         00100000
+ DSN SYSTEM(DB9G)                                                       00110000
+ RUN  PROGRAM(DSNTIAD) PLAN(DSNTIA91)                                   00120000
+//SYSPRINT DD SYSOUT=*                                                  00130000
+//SYSUDUMP DD SYSOUT=*                                                  00140000
+//SYSIN    DD DSN=&SRCLIB(CDBTRAIN),DISP=SHR                            00150000
+//*                                                                     00160000
+//CSUPP    EXEC PGM=IKJEFT01,REGION=2048K                               00170000
+//SYSTSPRT DD SYSOUT=*                                                  00180000
+//SYSTSIN  DD *                                                         00190000
+ DSN SYSTEM(DB9G)                                                       00200000
+ RUN  PROGRAM(DSNTIAD) PLAN(DSNTIA91)                                   00210000
+//SYSPRINT DD SYSOUT=*                                                  00220000
+//SYSUDUMP DD SYSOUT=*                                                  00230000
+//SYSIN    DD DSN=&SRCLIB(CSUPP),DISP=SHR                               00240000
+//*                                                                     00250000
+//LSUPP    EXEC DSNUPROC,SYSTEM=DB9G,UID=&SYSUID.U,UTPROC=''            00260000
+//DSNUPROC.SORTWK01 DD DSN=&&TEMP1,                                     00270000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         00280000
+//DSNUPROC.SORTWK02 DD DSN=&&TEMP2,                                     00290000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         00300000
+//DSNUPROC.SORTWK03 DD DSN=&&TEMP3,                                     00310000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         00320000
+//DSNUPROC.SORTWK04 DD DSN=&&TEMP4,                                     00330000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         00340000
+//DSNUPROC.SYSREC DD DSN=&SRCLIB(DATASUPP),DISP=SHR                     00350000
+//DSNUPROC.SYSUT1 DD DSN=&&TEMP5,                                       00360000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         00370000
+//DSNUPROC.SORTOUT DD DSN=&&TEMP6,                                      00380000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         00390000
+//DSNUPROC.SYSERR DD DSN=&&TEMP7,                                       00400000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         00410000
+//DSNUPROC.SYSMAP DD DSN=&&TEMP8,                                       00420000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         00430000
+//DSNUPROC.SYSIN DD DSN=&SRCLIB(ULODSUPP),DISP=SHR                      00440000
+//*                                                                     00450000
+//CPART    EXEC PGM=IKJEFT01,REGION=2048K                               00460000
+//SYSTSPRT DD SYSOUT=*                                                  00470000
+//SYSTSIN  DD *                                                         00480000
+ DSN SYSTEM(DB9G)                                                       00490000
+ RUN  PROGRAM(DSNTIAD) PLAN(DSNTIA91)                                   00500000
+//SYSPRINT DD SYSOUT=*                                                  00510000
+//SYSUDUMP DD SYSOUT=*                                                  00520000
+//SYSIN    DD DSN=&SRCLIB(CPART),DISP=SHR                               00530000
+//*                                                                     00540000
+//LPART    EXEC DSNUPROC,SYSTEM=DB9G,UID=&SYSUID.U,UTPROC=''            00550000
+//DSNUPROC.SORTWK01 DD DSN=&&TEMP1,                                     00560000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         00570000
+//DSNUPROC.SORTWK02 DD DSN=&&TEMP2,                                     00580000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         00590000
+//DSNUPROC.SORTWK03 DD DSN=&&TEMP3,                                     00600000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         00610000
+//DSNUPROC.SORTWK04 DD DSN=&&TEMP4,                                     00620000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         00630000
+//DSNUPROC.SYSREC DD DSN=&SRCLIB(DATAPART),DISP=SHR                     00640000
+//DSNUPROC.SYSUT1 DD DSN=&&TEMP5,                                       00650000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         00660000
+//DSNUPROC.SORTOUT DD DSN=&&TEMP6,                                      00670000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         00680000
+//DSNUPROC.SYSERR DD DSN=&&TEMP7,                                       00690000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         00700000
+//DSNUPROC.SYSMAP DD DSN=&&TEMP8,                                       00710000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         00720000
+//DSNUPROC.SYSIN DD DSN=&SRCLIB(ULODPART),DISP=SHR                      00730000
+//*                                                                     00740000
+//CCOMP    EXEC PGM=IKJEFT01,REGION=2048K                               00750000
+//SYSTSPRT DD SYSOUT=*                                                  00760000
+//SYSTSIN  DD *                                                         00770000
+ DSN SYSTEM(DB9G)                                                       00780000
+ RUN  PROGRAM(DSNTIAD) PLAN(DSNTIA91)                                   00790000
+//SYSPRINT DD SYSOUT=*                                                  00800000
+//SYSUDUMP DD SYSOUT=*                                                  00810000
+//SYSIN    DD DSN=&SRCLIB(CCOMP),DISP=SHR                               00820000
+//*                                                                     00830000
+//CCUST    EXEC PGM=IKJEFT01,REGION=2048K                               00840000
+//SYSTSPRT DD SYSOUT=*                                                  00850000
+//SYSTSIN  DD *                                                         00860000
+ DSN SYSTEM(DB9G)                                                       00870000
+ RUN  PROGRAM(DSNTIAD) PLAN(DSNTIA91)                                   00880000
+//SYSPRINT DD SYSOUT=*                                                  00890000
+//SYSUDUMP DD SYSOUT=*                                                  00900000
+//SYSIN    DD DSN=&SRCLIB(CCUST),DISP=SHR                               00910000
+//*                                                                     00920000
+//LCUST    EXEC DSNUPROC,SYSTEM=DB9G,UID=&SYSUID.U,UTPROC=''            00930000
+//DSNUPROC.SORTWK01 DD DSN=&&TEMP1,                                     00940000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         00950000
+//DSNUPROC.SORTWK02 DD DSN=&&TEMP2,                                     00960000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         00970000
+//DSNUPROC.SORTWK03 DD DSN=&&TEMP3,                                     00980000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         00990000
+//DSNUPROC.SORTWK04 DD DSN=&&TEMP4,                                     01000000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         01010000
+//DSNUPROC.SYSREC DD DSN=&SRCLIB(DATACUST),DISP=SHR                     01020000
+//DSNUPROC.SYSUT1 DD DSN=&&TEMP5,                                       01030000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         01040000
+//DSNUPROC.SORTOUT DD DSN=&&TEMP6,                                      01050000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         01060000
+//DSNUPROC.SYSERR DD DSN=&&TEMP7,                                       01070000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         01080000
+//DSNUPROC.SYSMAP DD DSN=&&TEMP8,                                       01090000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         01100000
+//DSNUPROC.SYSIN DD DSN=&SRCLIB(ULODCUST),DISP=SHR                      01110000
+//*                                                                     01120000
+//CORDER   EXEC PGM=IKJEFT01,REGION=2048K                               01130000
+//SYSTSPRT DD SYSOUT=*                                                  01140000
+//SYSTSIN  DD *                                                         01150000
+ DSN SYSTEM(DB9G)                                                       01160000
+ RUN  PROGRAM(DSNTIAD) PLAN(DSNTIA91)                                   01170000
+//SYSPRINT DD SYSOUT=*                                                  01180000
+//SYSUDUMP DD SYSOUT=*                                                  01190000
+//SYSIN    DD DSN=&SRCLIB(CORDER),DISP=SHR                              01200000
+//*                                                                     01210000
+//CORDPART EXEC PGM=IKJEFT01,REGION=2048K                               01220000
+//SYSTSPRT DD SYSOUT=*                                                  01230000
+//SYSTSIN  DD *                                                         01240000
+ DSN SYSTEM(DB9G)                                                       01250000
+ RUN  PROGRAM(DSNTIAD) PLAN(DSNTIA91)                                   01260000
+//SYSPRINT DD SYSOUT=*                                                  01270000
+//SYSUDUMP DD SYSOUT=*                                                  01280000
+//SYSIN    DD DSN=&SRCLIB(CORDPART),DISP=SHR                            01290000
+//*                                                                     01300000
+//IORDERS  EXEC PGM=IKJEFT01,REGION=2048K                               01310000
+//SYSTSPRT DD SYSOUT=*                                                  01320000
+//SYSTSIN  DD *                                                         01330000
+ DSN SYSTEM(DB9G)                                                       01340000
+ RUN  PROGRAM(DSNTIAD) PLAN(DSNTIA91)                                   01350000
+//SYSPRINT DD SYSOUT=*                                                  01360000
+//SYSUDUMP DD SYSOUT=*                                                  01370000
+//SYSIN    DD DSN=&SRCLIB(IORDER),DISP=SHR                              01380000
+//         DD DSN=&SRCLIB(IORDPART),DISP=SHR                            01390000
+//         DD DSN=&SRCLIB(ICOMP),DISP=SHR                               01400000
+//*                                                                     01410000
+//CWARD    EXEC PGM=IKJEFT01,REGION=2048K                               01420000
+//SYSTSPRT DD SYSOUT=*                                                  01430000
+//SYSTSIN  DD *                                                         01440000
+ DSN SYSTEM(DB9G)                                                       01450000
+ RUN  PROGRAM(DSNTIAD) PLAN(DSNTIA91)                                   01460000
+//SYSPRINT DD SYSOUT=*                                                  01470000
+//SYSUDUMP DD SYSOUT=*                                                  01480000
+//SYSIN    DD DSN=&SRCLIB(CWARD),DISP=SHR                               01490000
+//*                                                                     01500000
+//LWARD    EXEC DSNUPROC,SYSTEM=DB9G,UID=&SYSUID.U,UTPROC=''            01510000
+//DSNUPROC.SORTWK01 DD DSN=&&TEMP1,                                     01520000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         01530000
+//DSNUPROC.SORTWK02 DD DSN=&&TEMP2,                                     01540000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         01550000
+//DSNUPROC.SORTWK03 DD DSN=&&TEMP3,                                     01560000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         01570000
+//DSNUPROC.SORTWK04 DD DSN=&&TEMP4,                                     01580000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         01590000
+//DSNUPROC.SYSREC DD DSN=&SRCLIB(DATAWARD),DISP=SHR                     01600000
+//DSNUPROC.SYSUT1 DD DSN=&&TEMP5,                                       01610000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         01620000
+//DSNUPROC.SORTOUT DD DSN=&&TEMP6,                                      01630000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         01640000
+//DSNUPROC.SYSERR DD DSN=&&TEMP7,                                       01650000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         01660000
+//DSNUPROC.SYSMAP DD DSN=&&TEMP8,                                       01670000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         01680000
+//DSNUPROC.SYSIN DD DSN=&SRCLIB(ULODWARD),DISP=SHR                      01690000
+//*                                                                     01700000
+//CPATIENT EXEC PGM=IKJEFT01,REGION=2048K                               01710000
+//SYSTSPRT DD SYSOUT=*                                                  01720000
+//SYSTSIN  DD *                                                         01730000
+ DSN SYSTEM(DB9G)                                                       01740000
+ RUN  PROGRAM(DSNTIAD) PLAN(DSNTIA91)                                   01750000
+//SYSPRINT DD SYSOUT=*                                                  01760000
+//SYSUDUMP DD SYSOUT=*                                                  01770000
+//SYSIN    DD DSN=&SRCLIB(CPATIENT),DISP=SHR                            01780000
+//*                                                                     01790000
+//LPATIENT EXEC DSNUPROC,SYSTEM=DB9G,UID=&SYSUID.U,UTPROC=''            01800000
+//DSNUPROC.SORTWK01 DD DSN=&&TEMP1,                                     01810000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         01820000
+//DSNUPROC.SORTWK02 DD DSN=&&TEMP2,                                     01830000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         01840000
+//DSNUPROC.SORTWK03 DD DSN=&&TEMP3,                                     01850000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         01860000
+//DSNUPROC.SORTWK04 DD DSN=&&TEMP4,                                     01870000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         01880000
+//DSNUPROC.SYSREC DD DSN=&SRCLIB(DATAPAT),DISP=SHR                      01890000
+//DSNUPROC.SYSUT1 DD DSN=&&TEMP5,                                       01900000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         01910000
+//DSNUPROC.SORTOUT DD DSN=&&TEMP6,                                      01920000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         01930000
+//DSNUPROC.SYSERR DD DSN=&&TEMP7,                                       01940000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         01950000
+//DSNUPROC.SYSMAP DD DSN=&&TEMP8,                                       01960000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         01970000
+//DSNUPROC.SYSIN DD DSN=&SRCLIB(ULODPAT),DISP=SHR                       01980000
+//*                                                                     01990000
+//CDOCTOR  EXEC PGM=IKJEFT01,REGION=2048K                               02000000
+//SYSTSPRT DD SYSOUT=*                                                  02010000
+//SYSTSIN  DD *                                                         02020000
+ DSN SYSTEM(DB9G)                                                       02030000
+ RUN  PROGRAM(DSNTIAD) PLAN(DSNTIA91)                                   02040000
+//SYSPRINT DD SYSOUT=*                                                  02050000
+//SYSUDUMP DD SYSOUT=*                                                  02060000
+//SYSIN    DD DSN=&SRCLIB(CDOCTOR),DISP=SHR                             02070000
+//*                                                                     02080000
+//LDOCTOR  EXEC DSNUPROC,SYSTEM=DB9G,UID=&SYSUID.U,UTPROC=''            02090000
+//DSNUPROC.SORTWK01 DD DSN=&&TEMP1,                                     02100000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         02110000
+//DSNUPROC.SORTWK02 DD DSN=&&TEMP2,                                     02120000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         02130000
+//DSNUPROC.SORTWK03 DD DSN=&&TEMP3,                                     02140000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         02150000
+//DSNUPROC.SORTWK04 DD DSN=&&TEMP4,                                     02160000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         02170000
+//DSNUPROC.SYSREC DD DSN=&SRCLIB(DATADOC),DISP=SHR                      02180000
+//DSNUPROC.SYSUT1 DD DSN=&&TEMP5,                                       02190000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         02200000
+//DSNUPROC.SORTOUT DD DSN=&&TEMP6,                                      02210000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         02220000
+//DSNUPROC.SYSERR DD DSN=&&TEMP7,                                       02230000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         02240000
+//DSNUPROC.SYSMAP DD DSN=&&TEMP8,                                       02250000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         02260000
+//DSNUPROC.SYSIN DD DSN=&SRCLIB(ULODDOC),DISP=SHR                       02270000
+//*                                                                     02280000
+//CPATDOC  EXEC PGM=IKJEFT01,REGION=2048K                               02290000
+//SYSTSPRT DD SYSOUT=*                                                  02300000
+//SYSTSIN  DD *                                                         02310000
+ DSN SYSTEM(DB9G)                                                       02320000
+ RUN  PROGRAM(DSNTIAD) PLAN(DSNTIA91)                                   02330000
+//SYSPRINT DD SYSOUT=*                                                  02340000
+//SYSUDUMP DD SYSOUT=*                                                  02350000
+//SYSIN    DD DSN=&SRCLIB(CPATDOC),DISP=SHR                             02360000
+//*                                                                     02370000
+//LPATDOC  EXEC DSNUPROC,SYSTEM=DB9G,UID=&SYSUID.U,UTPROC=''            02380000
+//DSNUPROC.SORTWK01 DD DSN=&&TEMP1,                                     02390000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         02400000
+//DSNUPROC.SORTWK02 DD DSN=&&TEMP2,                                     02410000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         02420000
+//DSNUPROC.SORTWK03 DD DSN=&&TEMP3,                                     02430000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         02440000
+//DSNUPROC.SORTWK04 DD DSN=&&TEMP4,                                     02450000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         02460000
+//DSNUPROC.SYSREC DD DSN=&SRCLIB(DATAPD),DISP=SHR                       02470000
+//DSNUPROC.SYSUT1 DD DSN=&&TEMP5,                                       02480000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         02490000
+//DSNUPROC.SORTOUT DD DSN=&&TEMP6,                                      02500000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         02510000
+//DSNUPROC.SYSERR DD DSN=&&TEMP7,                                       02520000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         02530000
+//DSNUPROC.SYSMAP DD DSN=&&TEMP8,                                       02540000
+//     UNIT=SYSDA,SPACE=(16384,(20,20),,,ROUND)                         02550000
+//DSNUPROC.SYSIN DD DSN=&SRCLIB(ULODPD),DISP=SHR                        02560000
+//*                                                                     02570000
+//GBINDADD EXEC PGM=IKJEFT01,REGION=2048K                               02580000
+//SYSTSPRT DD SYSOUT=*                                                  02590000
+//SYSTSIN  DD *                                                         02600000
+ DSN SYSTEM(DB9G)                                                       02610000
+ RUN  PROGRAM(DSNTIAD) PLAN(DSNTIA91)                                   02620000
+//SYSPRINT DD SYSOUT=*                                                  02630000
+//SYSUDUMP DD SYSOUT=*                                                  02640000
+//SYSIN    DD DSN=&SRCLIB(GBINDIBM),DISP=SHR                            02650000
+//                                                                      02660000

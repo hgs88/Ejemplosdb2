@@ -1,0 +1,55 @@
+//CREAVEND   JOB (20,FB3),TRALEY,
+//            CLASS=A,MSGCLASS=H,NOTIFY=&SYSUID,COND=(0,NE)
+//* RUN THIS JOB FROM MVR0XCD SYSTEM AFTER BUILD IN COMPLETE
+//ALTER   EXEC PGM=IKJEFT01,DYNAMNBR=20                                 00020000
+//STEPLIB  DD DSN=DSN810.SDSNLOAD,DISP=SHR
+//SYSTSPRT DD  SYSOUT=*                                                 00030000
+//SYSTSIN  DD  *                                                        00040000
+  DSN SYSTEM(DB9G)                                                      00050000
+  RUN PROGRAM(DSNTIAD)  PLAN(DSNTIA91) -                                00060000
+      PARM('RC0') LIBRARY('DSN910.DB9G.RUNLIB.LOAD')                    00070000
+//SYSPRINT DD  SYSOUT=*                                                 00080000
+//SYSUDUMP DD  DUMMY                                                    00090000
+//SYSIN    DD  *                                                        00100000
+DROP TABLE VENDED;
+/*
+//**********************************************************************
+//* STEP REPAIR: RUN REPAIR
+//**********************************************************************
+//REPAIR EXEC DSNUPROC,SYSTEM=DB9G,
+//             UID=''
+//DSNUPROC.SYSIN  DD  *
+REPAIR SET TABLESPACE VERDURA.VERDUTS NORCVRPEND
+/*
+//**********************************************************************
+//ALTER   EXEC PGM=IKJEFT01,DYNAMNBR=20
+//STEPLIB  DD DSN=DSN810.SDSNLOAD,DISP=SHR
+//SYSTSPRT DD  SYSOUT=*
+//SYSTSIN  DD  *
+  DSN SYSTEM(DB9G)
+  RUN PROGRAM(DSNTIAD)  PLAN(DSNTIA91) -
+      PARM('RC0') LIBRARY('DSN910.DB9G.RUNLIB.LOAD')
+//SYSPRINT DD  SYSOUT=*
+//SYSUDUMP DD  DUMMY
+//SYSIN    DD  *
+CREATE TABLE VENDED
+(
+     TVEND_COD_VENDEDOR     DECIMAL (4,0) NOT NULL ,
+     TVEND_NOMBRE           CHAR(30) NOT NULL ,
+     TVEND_FECHA_ALTA       CHAR(8) NOT NULL ,
+     TVEND_NIF              CHAR(10) NOT NULL ,
+     TVEND_FECHA_NACIMIENTO CHAR(8) NOT NULL ,
+     TVEND_DIRECCION        CHAR(30) NOT NULL ,
+     TVEND_POBLACION        CHAR(30) NOT NULL ,
+     TVEND_COD_POSTAL       CHAR(10) NOT NULL ,
+     TVEND_TELEFONO         CHAR(10) NOT NULL ,
+     TVEND_ESTADO           CHAR(12) NOT NULL ,
+     TVEND_GUAPO            CHAR(1) NOT NULL
+)  IN  VERDURA.VERDUTS  AUDIT NONE  DATA CAPTURE NONE ;
+  CREATE UNIQUE INDEX VENDEDI
+     ON VENDED ( TVEND_COD_VENDEDOR )
+  FREEPAGE 0
+  PCTFREE 10
+  BUFFERPOOL BP0
+  CLOSE YES ;
+/*

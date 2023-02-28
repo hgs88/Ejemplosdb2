@@ -1,0 +1,93 @@
+//CICSPA          JOB ,NOTIFY=&SYSUID                                   00020002
+//*          CICS PA V3R1 HDB - DDL TO DEFINE DB2 TABLE                 00030002
+//RUNTIAD EXEC PGM=IKJEFT01,DYNAMNBR=20                                 00040002
+//STEPLIB          DD DISP=SHR,DSN=DB2.V910.SDSNLOAD                    00050002
+//                 DD DISP=SHR,DSN=DB2.V910.SDSNEXIT                    00060002
+//SYSTSPRT DD SYSOUT=*                                                  00070002
+//SYSTSIN          DD *                                                 00080002
+         DSN SYSTEM(DB2P)                                               00090002
+         RUN PROGRAM(DSNTIAD) -                                         00100002
+             LIB('DB2.V910.RUNLIB.LOAD') PLAN(DSNTIA91)                 00110002
+/*                                                                      00120002
+//SYSPRINT DD SYSOUT=*                                                  00130002
+//SYSUDUMP DD SYSOUT=*                                                  00140002
+//SYSIN            DD *                                                 00150002
+           CREATE STOGROUP SYSDEFLT VOLUMES(DA0001) VCAT USER;          00160002
+                                                                        00170002
+           CREATE DATABASE CICSPA;                                      00180002
+                                                                        00190002
+           COMMIT;                                                      00200002
+                                                                        00210002
+           CREATE TABLESPACE CICSP1H                                    00220002
+                  IN         CICSPA                                     00230002
+                  LOCKSIZE   ANY                                        00240002
+                  BUFFERPOOL BP0                                        00250002
+                  CLOSE      NO                                         00260002
+                  SEGSIZE    32                                         00270002
+                  USING      STOGROUP SYSDEFLT                          00280002
+                  PRIQTY     20                                         00290002
+                  SECQTY     20                                         00300002
+                  ERASE      NO ;                                       00310002
+                                                                        00320002
+                                                                        00330002
+           CREATE TABLE CICSPA.CICSP1H (                                00340002
+              START_DATE             DATE,                              00350002
+              START_TIME             TIME,                              00360002
+              MVSID                  CHAR(4),                           00370002
+              APPLID                 CHAR(8),                           00380002
+              TRAN                   CHAR(4),                           00390002
+              TASKCNT                FLOAT,                             00400002
+              RESPONSE_TIME          FLOAT,                             00410002
+              RESPONSE_TIME_SSQ      FLOAT,                             00420002
+              DISPATCH_COUNT         FLOAT,                             00430002
+              DISPATCH_COUNT_SSQ     FLOAT,                             00440002
+              DISPATCH_TIME          FLOAT,                             00450002
+              DISPATCH_TIME_SSQ      FLOAT,                             00460002
+              CPU_COUNT              FLOAT,                             00470002
+              CPU_COUNT_SSQ          FLOAT,                             00480002
+              CPU_TIME               FLOAT,                             00490002
+              CPU_TIME_SSQ           FLOAT,                             00500002
+              SUSPEND_COUNT          FLOAT,                             00510002
+              SUSPEND_COUNT_SSQ      FLOAT,                             00520002
+              SUSPEND_TIME           FLOAT,                             00530002
+              SUSPEND_TIME_SSQ       FLOAT,                             00540002
+              DISPWAIT_COUNT         FLOAT,                             00550002
+              DISPWAIT_COUNT_SSQ     FLOAT,                             00560002
+              DISPWAIT_TIME          FLOAT,                             00570002
+              DISPWAIT_TIME_SSQ      FLOAT,                             00580002
+              FCWAIT_COUNT           FLOAT,                             00590002
+              FCWAIT_COUNT_SSQ       FLOAT,                             00600002
+              FCWAIT_TIME            FLOAT,                             00610002
+              FCWAIT_TIME_SSQ        FLOAT,                             00620002
+              IRWAIT_COUNT           FLOAT,                             00630002
+              IRWAIT_COUNT_SSQ       FLOAT,                             00640002
+              IRWAIT_TIME            FLOAT,                             00650002
+              IRWAIT_TIME_SSQ        FLOAT,                             00660002
+              SC24UHWM_COUNT         FLOAT,                             00670002
+              SC24UHWM_COUNT_SSQ     FLOAT,                             00680002
+              SC31UHWM_COUNT         FLOAT,                             00690002
+              SC31UHWM_COUNT_SSQ     FLOAT,                             00700002
+              TSWAIT_COUNT           FLOAT,                             00750002
+              TSWAIT_COUNT_SSQ       FLOAT,                             00760002
+              TSWAIT_TIME            FLOAT,                             00770002
+              TSWAIT_TIME_SSQ        FLOAT                              00780002
+           ) IN CICSPA.CICSP1H;                                         00790002
+                                                                        00800002
+           CREATE TYPE 2 UNIQUE INDEX CICSPA.CICSP1H_IX                 00810002
+                  ON CICSPA.CICSP1H                                     00820002
+                (                                                       00830002
+                START_DATE,                                             00840002
+                START_TIME,                                             00850002
+                MVSID,                                                  00860002
+                APPLID,                                                 00870002
+                TRAN                                                    00880002
+                )                                                       00890002
+              USING STOGROUP   SYSDEFLT                                 00900002
+                    PRIQTY     10                                       00910002
+                    SECQTY     10                                       00920002
+                    ERASE      NO                                       00930002
+                    CLUSTER                                             00940002
+                    BUFFERPOOL BP0                                      00950002
+                    CLOSE      NO                                       00960002
+;                                                                       00970002
+**************************** Bottom o                                   00980002

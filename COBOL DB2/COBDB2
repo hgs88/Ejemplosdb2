@@ -1,0 +1,134 @@
+COBOL + DB2 compile JCL:
+
+//IND220SO JOB (123),'INDUS',CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),
+//             NOTIFY=&SYSUID
+//**********************************************************
+//JOBPROC  JCLLIB ORDER=IND120.INDUS.PROCLIB
+//DB2ICOB  EXEC PRECLINK,
+//    COPYLIB='IND220.SREE.DCLGEN',
+//    DBRMLIB='IND220.SREE.DBRMLIB',
+//    LOADLIB='IND220.SREE.LOADLIB',
+//    MEM=INSPGM,
+//    LMOD=INSPGM
+//SYSIN DD  DSN=IND220.SREE.DB2(INSPGM),DISP=SHR
+//LKED.SYSIN   DD *
+       INCLUDE SYSLIB(DSNELI)
+/*
+//
+
+
+
+compile procedure:
+
+
+//DB2COB   PROC MEM=TEMPNAME,
+//             COPYLIB=JCLERROR,
+//             DBRMLIB=JCLERROR,
+//             LOADLIB=JCLERROR,
+//             LMOD=JCLERROR,
+//             WSPC=500,LNGPRFX='IGY',
+//             LIBPRFX='CEE'                     *QUALIFIER FOR LE/390
+//********************************************************************
+//*        PRECOMPILE THE IBM COBOL PROGRAM                          *
+//********************************************************************
+//PC       EXEC PGM=DSNHPC,
+//         PARM='HOST(COBOL),SOURCE'
+//DBRMLIB  DD DSN=&DBRMLIB(&MEM),DISP=SHR
+//STEPLIB  DD DISP=SHR,DSN=DSN710.SDSNEXIT
+//         DD DISP=SHR,DSN=DSN710.SDSNLOAD
+//SYSLIB   DD DSN=&COPYLIB,DISP=SHR
+//SYSCIN   DD DSN=&&DSNHOUT,DISP=(MOD,PASS),UNIT=SYSDA,
+//            SPACE=(800,(&WSPC,&WSPC))
+//SYSPRINT DD SYSOUT=*
+//SYSTERM  DD SYSOUT=*
+//SYSUDUMP DD SYSOUT=*
+//SYSUT1   DD SPACE=(800,(&WSPC,&WSPC),,,ROUND)
+//SYSUT2   DD SPACE=(800,(&WSPC,&WSPC),,,ROUND)
+//********************************************************************
+//*        COMPILE THE IBM COBOL PROGRAM IF THE PRECOMPILE           *
+//*        RETURN CODE IS 4 OR LESS.                                 *
+//********************************************************************
+//COB      EXEC PGM=IGYCRCTL,
+//            PARM='APOST',
+//            COND=(4,LT,PC)
+//STEPLIB DD DSN=&LNGPRFX..SIGYCOMP,DISP=SHR
+//SYSPRINT DD SYSOUT=*
+//SYSTERM  DD SYSOUT=*
+//SYSLIB   DD DSN=&COPYLIB,DISP=SHR
+//SYSLIN   DD DSN=&&LOADSET,DISP=(MOD,PASS),
+//            SPACE=(800,(&WSPC,&WSPC))
+//SYSIN    DD DSN=&&DSNHOUT,DISP=(OLD,DELETE)
+//SYSUT1   DD SPACE=(800,(&WSPC,&WSPC),,,ROUND)
+//SYSUT2   DD SPACE=(800,(&WSPC,&WSPC),,,ROUND)
+//SYSUT3   DD SPACE=(800,(&WSPC,&WSPC),,,ROUND)
+//SYSUT4   DD SPACE=(800,(&WSPC,&WSPC),,,ROUND)
+//SYSUT5   DD SPACE=(800,(&WSPC,&WSPC),,,ROUND)
+//SYSUT6   DD SPACE=(800,(&WSPC,&WSPC),,,ROUND)
+//SYSUT7   DD SPACE=(800,(&WSPC,&WSPC),,,ROUND)
+//********************************************************************
+//*        LINKEDIT IF THE PRECOMPILE AND COMPILE                    *
+//*        RETURN CODES ARE 4 OR LESS.                               *
+//********************************************************************
+//LKED     EXEC PGM=IEWL,
+//         COND=((4,LT,PC),(4,LT,COB))
+//SYSLIB   DD DSN=&LIBPRFX..SCEELKED,DISP=SHR
+//         DD DISP=SHR,DSN=DSN710.SDSNLOAD
+//SYSLIN   DD DSN=&&LOADSET,DISP=(OLD,DELETE)
+//         DD DDNAME=SYSIN
+//SYSLMOD  DD DSN=&LOADLIB(&LMOD),DISP=SHR
+//SYSPRINT DD SYSOUT=*
+//SYSUT1   DD SPACE=(1024,(50,50))
+
+
+
+Bind jcl:
+
+//IND220SO JOB (123),'INDUS',CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),
+//             NOTIFY=&SYSUID
+//******************************************************
+//JOBLIB   DD DISP=SHR,DSN=DSN710.SDSNEXIT
+//         DD DISP=SHR,DSN=DSN710.SDSNLOAD
+//         DD DISP=SHR,DSN=CEE.SCEERUN
+//BINDPLAN EXEC PGM=IKJEFT01,DYNAMNBR=20
+//DBRMLIB  DD DSN=IND220.SREE.DBRMLIB,DISP=SHR
+//SYSTSPRT DD SYSOUT=*
+//SYSTSPRT DD SYSOUT=*
+//SYSPRINT DD SYSOUT=*
+//SYSUDUMP DD SYSOUT=*
+//SYSOUT   DD SYSOUT=*
+//******************************************************
+//*STATEMENTS FOR PROGRAM DB2VSAM IN OZASUP.SUP.SOURCE
+//SYSTSIN DD *
+ DSN SYSTEM(DSN)
+ BIND PLAN(INSPGM) MEMBER(INSPGM) ACT(REP)-
+      ISOLATION(CS)
+ END
+/*
+//
+
+
+COBOL + DB2 execution JCL:
+
+//IND220SO JOB (123),'INDUS',CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1),
+//             NOTIFY=&SYSUID
+//******************************************************
+//JOBLIB   DD DISP=SHR,DSN=DSN710.SDSNEXIT
+//         DD DISP=SHR,DSN=DSN710.SDSNLOAD
+//         DD DISP=SHR,DSN=CEE.SCEERUN
+//BINDPLAN EXEC PGM=IKJEFT01,DYNAMNBR=20
+//DBRMLIB  DD DSN=IND220.SREE.DBRMLIB,DISP=SHR
+//SYSTSPRT DD SYSOUT=*
+//SYSTSPRT DD SYSOUT=*
+//SYSPRINT DD SYSOUT=*
+//SYSUDUMP DD SYSOUT=*
+//SYSOUT   DD SYSOUT=*
+//******************************************************
+//*STATEMENTS FOR PROGRAM DB2VSAM IN OZASUP.SUP.SOURCE
+//SYSTSIN DD *
+ DSN SYSTEM(DSN)
+ RUN PROGRAM(INSPGM) –
+     PLAN(INSPGM) –
+     LIB(‘IND220.INDUS.LOADLIB’)
+ END
+/*
+//

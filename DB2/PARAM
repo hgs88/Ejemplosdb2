@@ -1,0 +1,18 @@
+LOAD DATA  INDDN LOADIN                                                 00010001
+STATISTICS TABLE(ALL) INDEX(ALL) UPDATE ALL                             00020001
+SORTNUM 12                                                              00030001
+WORKDDN (SYSUT1,SORTOUT)                                                00040001
+ERRDDN SYSERR                                                           00050001
+MAPDDN SYSMAP                                                           00060001
+LOG NO                                                                  00070001
+ENFORCE NO                                                              00080001
+INTO TABLE GRUPOS                                                       00090001
+( TGRUP_CLAVE  SMALLINT                                                 00100001
+, TGRUP_DESCRIPCION  CHAR (12)                                          00110001
+)                                                                       00120001
+/*                                                                      00130001
+//                                                                      00140001
+INTO TABLE GRUPOS                                                       00150001
+( TGRUP_CLAVE POSITION(2:0) DECIMAL                                     00160001
+, TGRUP_DESCRIPCION  POSITION(12:3) CHAR (12)                           00170001
+)                                                                       00180001
